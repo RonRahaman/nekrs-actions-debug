@@ -46,12 +46,13 @@ jobs:
           ./nrsconfig
           cmake --build build --target install -j 2
 
-      - name: archive_build
-        shell: bash
-        uses: actions/upload-artifact@v2
-        with:
-          - name: build_dir
-            path: ${NEKRS_HOME}
+          # This doesn't work yet...
+          #- name: archive_build
+          #  shell: bash
+          #  uses: actions/upload-artifact@v2
+          #  with:
+          #    - name: build_dir
+          #      path: ${NEKRS_HOME}
 
 
 #  ethier:
