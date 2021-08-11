@@ -22,6 +22,10 @@ env:
   NEKRS_OCCA_MODE_DEFAULT: SERIAL
   NEKRS_CI: 1
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
 
   ethier:
@@ -32,29 +36,25 @@ jobs:
       with:
         submodules: recursive
 
-    - name: APT dependencies
-      shell: bash
-      run: |
-        sudo apt -y update
-        sudo apt install -y mpich libmpich-dev
+          #- name: APT dependencies
+          #  run: |
+          #    sudo apt -y update
+          #    sudo apt install -y mpich libmpich-dev
 
-    - name: install
-      shell: bash
-      run: |
-        pwd
-        ./nrsconfig
-        cmake --build build --target install -j 2
+          #- name: install
+          #  run: |
+          #    pwd
+          #    ./nrsconfig
+          #    cmake --build build --target install -j 2
 
     - name: 'ethier default'
-      shell: bash
-      working-directory: $NEK_EXAMPLES/ethier
+      working-directory: "${NEK_EXAMPLES}/ethier"
       run: |
         pwd
         $NEKRS_HOME/bin/nrsmpi ethier 1 1
 
     - name: 'ethier subcycle'
-      shell: bash
-      working-directory: $NEK_EXAMPLES/ethier
+      working-directory: "${NEK_EXAMPLES}/ethier"
       run: |
         pwd
         $NEKRS_HOME/bin/nrsmpi ethier 2 2
@@ -68,21 +68,18 @@ jobs:
       with:
         submodules: recursive
 
-    - name: APT dependencies
-      shell: bash
-      run: |
-        sudo apt -y update
-        sudo apt install -y mpich libmpich-dev
+          #- name: APT dependencies
+          #  run: |
+          #    sudo apt -y update
+          #    sudo apt install -y mpich libmpich-dev
 
-    - name: install
-      shell: bash
-      run: |
-        pwd
-        ./nrsconfig
-        cmake --build build --target install -j 2
+          #- name: install
+          #  run: |
+          #    pwd
+          #    ./nrsconfig
+          #    cmake --build build --target install -j 2
 
     - name: 'lowMach default'
-      shell: bash
       working-directory: $NEK_EXAMPLES/lowmach
       run: |
         pwd
