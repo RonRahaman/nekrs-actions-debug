@@ -48,16 +48,13 @@ jobs:
         cmake --build build --target install -j 2
 
     - name: 'ls'
-      run: ls -r
+      run: ls -r ${{ github.workspace }}/.local/nekrs
 
     - name: 'ethier default'
       working-directory: ${{ github.workspace }}/.local/nekrs/examples
       run: |
         ls
-        pwd
-        #run: |
-        #  pwd
-        #  ${{ github.workspace }}/.local/nekrs/bin/nrsmpi ethier 1 1
+        ${{ github.workspace }}/.local/nekrs/bin/nrsmpi ethier 1 1
 
     - name: 'ethier subcycle'
       working-directory: "${NEK_EXAMPLES}/ethier"
