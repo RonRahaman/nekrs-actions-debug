@@ -26,24 +26,28 @@ jobs:
 
   setup:
     runs-on: ubuntu-latest
-    shell: bash
     steps:
       - uses: actions/checkout@v2
+
       - name: APT Install
+        shell: bash
         run: |
           sudo apt -y update
           sudo apt install -y mpich libmpich-dev
 
   build_nekrs:
     runs-on: ubuntu-latest
-    shell: bash
     needs: setup
     steps:
+
       - name: build
+        shell: bash
         run: |
           ./nrsconfig
           cmake --build build --target install -j 2
+
       - name: archive_build
+        shell: bash
         uses: actions/upload-artifact@v2
         with:
           - name: build_dir
