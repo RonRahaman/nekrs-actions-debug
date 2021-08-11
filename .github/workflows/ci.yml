@@ -48,7 +48,7 @@ jobs:
           #    cmake --build build --target install -j 2
 
     - name: 'ethier default'
-      working-directory: "${NEK_EXAMPLES}/ethier"
+      working-directory: ${{ NEK_EXAMPLES }}/ethier
       run: |
         pwd
         $NEKRS_HOME/bin/nrsmpi ethier 1 1
