@@ -24,32 +24,119 @@ env:
 
 jobs:
 
-  main:
+  ethier:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
 
-      - name: APT dependencies
-        shell: bash
-        run: |
-          sudo apt -y update
-          sudo apt install -y mpich libmpich-dev
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
-      - name: install
-        shell: bash
-        run: |
-          pwd
-          ./nrsconfig
-          cmake --build build --target install -j 2
+    - name: APT dependencies
+      shell: bash
+      run: |
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
 
-      - name: warm-up
-        shell: bash
-        working-directory: $NEKRS_EXAMPLES
-        run: pwd
+    - name: install
+      shell: bash
+      run: |
+        pwd
+        ./nrsconfig
+        cmake --build build --target install -j 2
+
+    - name: 'ethier default'
+      shell: bash
+      working-directory: $NEK_EXAMPLES/ethier
+      run: |
+        pwd
+        $NEKRS_HOME/bin/nrsmpi ethier 1 1
+
+    - name: 'ethier subcycle'
+      shell: bash
+      working-directory: $NEK_EXAMPLES/ethier
+      run: |
+        pwd
+        $NEKRS_HOME/bin/nrsmpi ethier 2 2
 
 
+  lowMach:
+    runs-on: ubuntu-18.04
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: APT dependencies
+      shell: bash
+      run: |
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
+
+    - name: install
+      shell: bash
+      run: |
+        pwd
+        ./nrsconfig
+        cmake --build build --target install -j 2
+
+    - name: 'lowMach default'
+      shell: bash
+      working-directory: $NEK_EXAMPLES/lowmach
+      run: |
+        pwd
+        $NEKRS_HOME/bin/nrsmpi lowMach 2 1
+
+
+    
+
+        #main:
+        #  runs-on: ubuntu-18.04
+        #  strategy: 
+        #    matrix:
+        #      casename: [ethier, lowMach, mv_cyl]
+        #      include:
+        #        - casename: ethier
+        #          testname: 'ethier default'
+        #          tasks: 1
+        #          ci_mode: 1
+
+        #        - casename: ethier
+        #          testname: 'ethier subcycle'
+        #          tasks: 2
+        #          ci_mode: 2
+
+        #        - casename: ethier
+        #          testname: 'ethier velocity and pressure projection'
+        #          tasks: 2
+        #          ci_mode: 3
+
+        #        - casename: lowMach
+        #          testname: 'lowMach default'
+        #          tasks: 2
+        #          ci_mode: 1
+
+        #        - casename: mv_cyl
+        #          testname: 'mv_cyl'
+        #          tasks: 2
+        #          ci_mode: 1
+
+        #        - casename: mv_cyl
+        #          testname: 'mv_cyl + subcycling'
+        #          tasks: 2
+        #          ci_mode: 2
+
+        #  steps:
+
+        #    #- name: warm-up
+        #    #  shell: bash
+        #    #  working-directory: $NEKRS_EXAMPLES
+        #    #  run: pwd
+      
+
+
+  # ====== SCRATCH =============
   #  setup:
   #    runs-on: ubuntu-latest
   #    steps:
