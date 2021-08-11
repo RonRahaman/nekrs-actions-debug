@@ -36,16 +36,16 @@ jobs:
       with:
         submodules: recursive
 
-          #- name: APT dependencies
-          #  run: |
-          #    sudo apt -y update
-          #    sudo apt install -y mpich libmpich-dev
+    - name: APT dependencies
+      run: |
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
 
-          #- name: install
-          #  run: |
-          #    pwd
-          #    ./nrsconfig
-          #    cmake --build build --target install -j 2
+    - name: install
+      run: |
+        pwd
+        ./nrsconfig
+        cmake --build build --target install -j 2
 
     - name: 'ethier default'
       working-directory: ${{ env.NEK_EXAMPLES }}/ethier
