@@ -91,7 +91,7 @@ jobs:
         cmake --build build --target install -j 2
 
     - name: 'lowMach default'
-      working-directory: ${{ env.NEKRS_EXAMPLES }}/lowmach
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/lowMach
       run: ${{ env.NEKRS_HOME }}/bin/nrsmpi lowMach 2 1
 
 
