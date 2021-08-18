@@ -44,7 +44,6 @@ jobs:
 
     - name: install
       run: |
-        pwd
         ./nrsconfig
         cmake --build build --target install -j 2
 
@@ -54,7 +53,23 @@ jobs:
 
     - name: 'ethier subcycle'
       working-directory: ${{ env.NEKRS_EXAMPLES }}/ethier
-      run: $NEKRS_HOME/bin/nrsmpi ethier 2 2
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi ethier 2 2
+
+    - name: 'ethier velocity and pressure projection'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/ethier
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi ethier 2 3
+
+    - name: 'ethier (block) velocity and pressure projection with subcycling'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/ethier
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi ethier 2 4
+
+    - name: 'ethier default + moving mesh'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/ethier
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi ethier 2 5
+
+    - name: 'ethier subcycle + moving mesh'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/ethier
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi ethier 2 6
 
 
   lowMach:
@@ -72,14 +87,84 @@ jobs:
 
     - name: install
       run: |
-        pwd
         ./nrsconfig
         cmake --build build --target install -j 2
 
     - name: 'lowMach default'
       working-directory: ${{ env.NEKRS_EXAMPLES }}/lowmach
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi lowMach 2 1
+
+
+  mv_cyl:
+    runs-on: ubuntu-18.04
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: APT dependencies
       run: |
-        pwd
-        $NEKRS_HOME/bin/nrsmpi lowMach 2 1
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
+
+    - name: install
+      run: |
+        ./nrsconfig
+        cmake --build build --target install -j 2
+
+    - name: 'mv_cyl'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/mv_cyl
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi mv_cyl 2 1
+
+    - name: 'mv_cyl + subcycling'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/mv_cyl
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi mv_cyl 2 2
+
+
+  conj_ht:
+    runs-on: ubuntu-18.04
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: APT dependencies
+      run: |
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
+
+    - name: install
+      run: |
+        ./nrsconfig
+        cmake --build build --target install -j 2
+
+    - name: 'conj_ht'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/conj_ht
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi conj_ht 2 1
+
+
+  channelStress:
+    runs-on: ubuntu-18.04
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: APT dependencies
+      run: |
+        sudo apt -y update
+        sudo apt install -y mpich libmpich-dev
+
+    - name: install
+      run: |
+        ./nrsconfig
+        cmake --build build --target install -j 2
+
+    - name: 'channelStress'
+      working-directory: ${{ env.NEKRS_EXAMPLES }}/channel
+      run: ${{ env.NEKRS_HOME }}/bin/nrsmpi channel 2 1
 
 
